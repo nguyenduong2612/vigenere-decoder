@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container" style="width: 60%; padding-top: 50px; min-width: 400px;">
+        <form class="form-inline">
+
+            <div class="row">
+                <h4 class="active">Input Ciphertext: </h4>
+                <div class="input-field" style="display: block; margin-left: 10px;">
+                    <textarea placeholder="Ciphertext" id="ctext" class="materialize-textarea"></textarea>
+                </div>
+            </div>
+            
+            <div class="row">
+                <button type="submit" class="btn waves-effect waves-light">Submit</button>
+            </div>
+            </form>
+            </br>
+            <div class="row">
+                <h4>Key</h4>
+                <p id="key"></p>
+            </div>
+            <div class="row">
+                <h4>Plaintext</h4>
+                <p id="text" style="word-break: break-all;"></p>
+            </div>
+            </br>
+        </form>
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function() {
+        $('form').on('submit', function(event) {
+            $.ajax({
+                data : {
+                ctext : $('#ctext').val(),
+                    },
+                type : 'POST',
+                url : '/process'
+                })
+            .done(function(data) {
+                $('#key').text(data.key).show();
+                $('#text').text(data.text).show();
+            });
+            event.preventDefault();
+            });
+    });
+
+    M.textareaAutoResize($('#ctext'));
+</script>
